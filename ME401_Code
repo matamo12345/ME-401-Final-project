@@ -1,0 +1,81 @@
+import RPi.GPIO as GPIO
+import time
+
+# Set up GPIO mode
+GPIO.setmode(GPIO.BCM)
+
+# Motor pin definitions (for 4 motors)
+# Motor pins will need adjusting
+
+# Motor 1 (front-left)
+motor1_pin1 = 17  
+motor1_pin2 = 18  
+
+# Motor 2 (front-right)
+motor2_pin1 = 22  
+motor2_pin2 = 23  
+
+# Motor 3 (back-left)
+motor3_pin1 = 24  
+motor3_pin2 = 25  
+
+# Motor 4 (back-right)
+motor4_pin1 = 5   
+motor4_pin2 = 6   
+
+# Set up the motor pins as outputs
+GPIO.setup(motor1_pin1, GPIO.OUT)
+GPIO.setup(motor1_pin2, GPIO.OUT)
+GPIO.setup(motor2_pin1, GPIO.OUT)
+GPIO.setup(motor2_pin2, GPIO.OUT)
+GPIO.setup(motor3_pin1, GPIO.OUT)
+GPIO.setup(motor3_pin2, GPIO.OUT)
+GPIO.setup(motor4_pin1, GPIO.OUT)
+GPIO.setup(motor4_pin2, GPIO.OUT)
+
+# Function to move forward
+def move_forward():
+    GPIO.output(motor1_pin1, GPIO.HIGH)
+    GPIO.output(motor1_pin2, GPIO.LOW)
+    GPIO.output(motor2_pin1, GPIO.HIGH)
+    GPIO.output(motor2_pin2, GPIO.LOW)
+    GPIO.output(motor3_pin1, GPIO.HIGH)
+    GPIO.output(motor3_pin2, GPIO.LOW)
+    GPIO.output(motor4_pin1, GPIO.HIGH)
+    GPIO.output(motor4_pin2, GPIO.LOW)
+
+# Function to move backward
+def move_backward():
+    GPIO.output(motor1_pin1, GPIO.LOW)
+    GPIO.output(motor1_pin2, GPIO.HIGH)
+    GPIO.output(motor2_pin1, GPIO.LOW)
+    GPIO.output(motor2_pin2, GPIO.HIGH)
+    GPIO.output(motor3_pin1, GPIO.LOW)
+    GPIO.output(motor3_pin2, GPIO.HIGH)
+    GPIO.output(motor4_pin1, GPIO.LOW)
+    GPIO.output(motor4_pin2, GPIO.HIGH)
+
+# Function to stop 
+def stop():
+    GPIO.output(motor1_pin1, GPIO.LOW)
+    GPIO.output(motor1_pin2, GPIO.LOW)
+    GPIO.output(motor2_pin1, GPIO.LOW)
+    GPIO.output(motor2_pin2, GPIO.LOW)
+    GPIO.output(motor3_pin1, GPIO.LOW)
+    GPIO.output(motor3_pin2, GPIO.LOW)
+    GPIO.output(motor4_pin1, GPIO.LOW)
+    GPIO.output(motor4_pin2, GPIO.LOW)
+
+try:
+    while True:
+        move_forward()  
+        time.sleep(2)   
+        stop()          
+        time.sleep(1)   
+        move_backward() 
+        time.sleep(2)   
+        stop()          
+        time.sleep(1)   
+
+except KeyboardInterrupt:
+    GPIO.cleanup()
